@@ -1,1 +1,24 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+url = "https://en.wikipedia.org/w/index.php?title=List_of_Falcon_9_and_Falcon_Heavy_launches&oldid=1027686922"
+response = requests.get(url)
+soup = BeautifulSoup(response.text, "html.parser")
+
+tables = soup.find_all("table", class_="wikitable")
+launch_table = tables[2]  
+
+
+headers = [th.text.strip() for th in launch_table.find_all("th")]
+data = {header: [] for header in headers}
+
+
+for row in launch_table.find_all("tr")[1:]:
+    cells = row.find_all("td")
+    if len(cells) == len(headers):
+        for i, cell in enumerate(cells):
+            data[headers[i]].append(cell.text.strip())
+
+df = pd.DataFrame(data)
 
