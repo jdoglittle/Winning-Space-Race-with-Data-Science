@@ -1,0 +1,45 @@
+[Start]
+   ↓
+[1. Data Discovery]
+   - Identify SpaceX API endpoints (e.g., /launches, /rockets)
+   - Explore structure of JSON responses
+   - Key phrases: "source schema", "endpoint mapping", "payload metadata"
+
+   ↓
+[2. Data Collection]
+   - Use requests to fetch data from SpaceX API
+   - Store raw JSON responses
+   - Key phrases: "REST call", "GET request", "API response object"
+
+   ↓
+[3. Data Cleaning]
+   - Handle missing values, remove duplicates
+   - Standardize date formats, fix inconsistent fields
+   - Key phrases: "null handling", "deduplication", "format normalization"
+
+   ↓
+[4. Data Structuring]
+   - Normalize nested JSON into flat DataFrames
+   - Merge related datasets (e.g., launches + rockets)
+   - Key phrases: "data flattening", "relational join", "schema alignment"
+
+   ↓
+[5. Data Transformation]
+   - Engineer features like launch success rate, reuse count
+   - Convert categorical variables (e.g., orbit type)
+   - Key phrases: "feature engineering", "one-hot encoding", "derived metrics"
+
+   ↓
+[6. Data Validation]
+   - Check for logical consistency (e.g., launch date < landing date)
+   - Validate against known benchmarks
+   - Key phrases: "data integrity", "rule-based validation", "anomaly detection"
+
+   ↓
+[7. Data Publishing]
+   - Visualize with Plotly Dash (e.g., success trends, payload mass)
+   - Export clean data to CSV or dashboard
+   - Key phrases: "interactive dashboard", "data pipeline output", "insight delivery"
+
+   ↓
+[End]
