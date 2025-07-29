@@ -1,0 +1,77 @@
+!pip install flask
+
+
+!pip install pandas
+
+
+%config SqlMagic.style = '_DEPRECATED_DEFAULT'
+
+
+class DevelopmentConfig:
+    DEBUG = True
+    DATABASE_URI = 'sqlite:///dev.db'
+
+
+import importlib.metadata
+print(importlib.metadata.version("flask"))
+
+
+class DevelopmentConfig:
+    DEBUG = True
+    DATABASE_URI = 'sqlite:///dev.db'
+
+    @staticmethod
+    def init_app(app):
+        print("DevelopmentConfig initialized")
+
+
+import sqlite3
+
+conn = sqlite3.connect("your_database.db")
+cursor = conn.cursor()
+
+# Use PRAGMA correctly inside a Python string
+cursor.execute("PRAGMA table_info(table_name);")
+table_info = cursor.fetchall()
+
+for col in table_info:
+    print(col)
+
+
+import pandas as pd
+import sqlite3
+
+conn = sqlite3.connect("spacex.db")
+
+
+df = pd.read_csv('spacex_launches_clean.csv')
+
+
+cursor = conn.cursor()
+cursor.execute("SELECT COUNT(*) FROM SPACEX_LAUNCH_DATA")
+print(cursor.fetchone())
+
+
+import os
+os.getcwd()
+
+
+from sqlalchemy import create_engine, text
+
+engine = create_engine('sqlite:///spacex.db')
+
+with engine.connect() as conn:
+    result = conn.execute(text("SELECT name FROM sqlite_master WHERE type='table';"))
+    print([row[0] for row in result])
+
+
+import pandas as pd
+
+df = pd.read_csv('spacex_launches_clean.csv')  # Make sure this file is uploaded
+df.to_sql('spacex_launch_data', con=engine, if_exists='replace', index=False)
+
+
+with engine.connect() as conn:
+    result = conn.execute(text("SELECT * FROM spacex_launch_data LIMIT 5;"))
+    print(result.fetchall())
+
