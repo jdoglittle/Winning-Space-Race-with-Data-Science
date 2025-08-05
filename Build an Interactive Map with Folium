@@ -1,0 +1,87 @@
+import webbrowser
+webbrowser.open('map_name.html')
+
+!pip install folium
+
+import folium
+
+html = "<b>Bold Text</b><br><i>Italic</i>"
+folium.Popup(html, parse_html=True)
+
+!pip install pandas
+
+import os
+print(os.getcwd())
+
+folium.Tooltip("Click for details")
+
+folium.Popup(html="""
+    <h4>Launch Info</h4>
+    <p><b>Vehicle:</b> Falcon 9</p>
+    <p><b>Payload:</b> Starlink</p>
+""", max_width=250)
+
+folium.Popup("Launch Site: LC-39A", max_width=300)
+
+m.save("map.html")
+
+import folium
+from folium.features import DivIcon
+from folium.plugins import MarkerCluster
+
+# Base map centered at Kennedy Space Center
+m = folium.Map(location=[28.5623, -80.5774], zoom_start=5)
+
+# Regular popup
+folium.Marker(
+    location=[28.5623, -80.5774],
+    popup=folium.Popup("Kennedy Space Center 🚀", max_width=200),
+    tooltip="Click for launch info"
+).add_to(m)
+
+# HTML popup
+html_popup = """
+<b>Launch Site:</b> Kennedy Space Center<br>
+<i>Founded:</i> 1962<br>
+<a href='https://www.nasa.gov/kennedy' target='_blank'>More info</a>
+"""
+folium.Marker(
+    location=[28.5623, -80.5874],
+    popup=folium.Popup(html_popup, max_width=300),
+    icon=folium.Icon(color='green')
+).add_to(m)
+
+# Circle with popup
+folium.CircleMarker(
+    location=[28.5523, -80.5774],
+    radius=10,
+    color='blue',
+    fill=True,
+ fill_color='lightblue',
+    fill_opacity=0.6,
+    popup="Launch Pad 39A"
+).add_to(m)
+
+# DivIcon popup
+folium.Marker(
+    location=[28.5723, -80.5674],
+    icon=DivIcon(
+        icon_size=(150,36),
+        icon_anchor=(0,0),
+        html='<div style="font-size: 12pt; color : red">🚀 Launch Zone</div>',
+    )
+).add_to(m)
+
+# MarkerCluster with popups
+cluster = MarkerCluster().add_to(m)
+for i in range(3):
+    folium.Marker(
+        location=[28.5623 + i*0.01, -80.5774 + i*0.01],
+        popup=f"Mission #{i+1}"
+    ).add_to(cluster)
+
+# Save and optionally preview
+m.save("advanced_popups_map.html")
+
+from IPython.display import IFrame
+IFrame("advanced_popups_map.html", width=800, height=600)
