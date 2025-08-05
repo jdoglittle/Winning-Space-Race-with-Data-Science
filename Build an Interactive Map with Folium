@@ -23,7 +23,6 @@ folium.Popup(html="""
 
 folium.Popup("Launch Site: LC-39A", max_width=300)
 
-m.save("map.html")
 
 import folium
 from folium.features import DivIcon
