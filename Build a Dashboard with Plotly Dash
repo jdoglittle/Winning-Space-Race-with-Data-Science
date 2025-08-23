@@ -1,0 +1,82 @@
+import pandas as pd
+import plotly.express as px
+
+# Sample SpaceX launch data
+data = {
+    'Launch Site': ['CCAFS LC-40', 'VAFB SLC-4E', 'KSC LC-39A', 'CCAFS LC-40', 'KSC LC-39A'],
+    'Year': [2020, 2020, 2021, 2021, 2022],
+    'Success': [1, 1, 1, 0, 1]
+}
+df = pd.DataFrame(data)
+
+launch_counts = df['Launch Site'].value_counts().reset_index()
+launch_counts.columns = ['Launch Site', 'Count']
+
+fig = px.bar(launch_counts, x='Launch Site', y='Count',
+             title='SpaceX Launches by Site',
+             color='Launch Site',
+             text='Count')
+fig.update_traces(textposition='outside')
+fig.update_layout(xaxis_title='Launch Site', yaxis_title='Number of Launches')
+fig.show()
+
+
+
+import pandas as pd
+import plotly.express as px
+
+# Sample SpaceX data
+spacex_df = pd.DataFrame({
+    'Payload Mass (kg)': [5000, 4200, 8000, 7500, 4900, 8200],
+    'Launch Date': pd.to_datetime(['2020-01-01', '2020-06-01', '2021-03-01', '2021-09-01', '2022-02-01', '2022-08-01']),
+    'Rocket Type': ['Falcon 9', 'Falcon 9', 'Falcon Heavy', 'Falcon Heavy', 'Falcon 9', 'Falcon Heavy']
+})
+
+# Extract year
+spacex_df['Year'] = spacex_df['Launch Date'].dt.year
+
+# Create scatter plot
+fig = px.scatter(spacex_df,
+                 x='Year',
+                 y='Payload Mass (kg)',
+                 color='Rocket Type',
+                 title='Payload Mass by Year and Rocket Type',
+                 hover_data=['Launch Date'])
+
+fig.show()
+
+
+
+%pip install folium
+
+
+import folium
+import pandas as pd
+
+# Sample SpaceX launch site data
+data = {
+    'Launch Site': ['CCAFS LC-40', 'VAFB SLC-4E', 'KSC LC-39A'],
+    'Latitude': [28.562302, 34.632834, 28.573255],
+    'Longitude': [-80.577356, -120.610746, -80.646895],
+    'Launches': [25, 10, 15]
+}
+df = pd.DataFrame(data)
+
+
+map_center = [df['Latitude'].mean(), df['Longitude'].mean()]
+spacex_map = folium.Map(location=map_center, zoom_start=4)
+
+# Add markers
+for _, row in df.iterrows():
+    folium.CircleMarker(
+        location=[row['Latitude'], row['Longitude']],
+        radius=row['Launches'] * 0.5,  # scale marker size
+        popup=f"{row['Launch Site']}: {row['Launches']} launches",
+        color='blue',
+        fill=True,
+        fill_color='blue'
+    ).add_to(spacex_map)
+
+spacex_map
+
+
