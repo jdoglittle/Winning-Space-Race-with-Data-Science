@@ -1,0 +1,22 @@
+!pip install pandas
+
+import pandas as pd
+
+df = pd.read_csv( 'spacex_launch_data.csv')  
+
+df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
+
+print(df.columns.tolist())
+print(df['date_utc'].unique()) 
+
+ground_success = df[
+    df['success'].str.contains('success', case=False, na=False) &
+    df['failures'].str.contains('ground', case=False, na=False)
+]
+
+ground_success_sorted = ground_success.sort_values('date_utc') 
+if not ground_success_sorted.empty:
+    first_date = ground_success_sorted.iloc[0]['date_utc']
+    print(f"🚀 First successful ground pad landing date: {first_date}")
+else:
+    print("No successful ground pad landings found. Check column values.")
