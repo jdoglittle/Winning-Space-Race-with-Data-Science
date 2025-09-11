@@ -1,0 +1,11 @@
+!pip install pandas
+filtered_df = df[
+    df['landing_outcome'].str.contains('Success', case=False, na=False) &
+    df['landing_outcome'].str.contains('drone', case=False, na=False) &
+    (df['payload_mass_kg'] > 4000) &
+    (df['payload_mass_kg'] < 6000)
+]
+
+booster_names = filtered_df['booster'].unique()
+print("🚀 Boosters with successful drone ship landings and payload mass between 4000–6000 kg:")
+print(booster_names)
