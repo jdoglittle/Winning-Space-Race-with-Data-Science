@@ -1,0 +1,18 @@
+!pip install pandas
+print(df['failures'].unique())
+
+outcome_counts = df['failures'].value_counts()
+print("🚀 Mission Outcome Counts:")
+print(outcome_counts)
+
+print(df['success'].unique())
+
+outcome_counts = df['success'].value_counts()
+print("🚀 Mission Outcome Counts:")
+print(outcome_counts)
+
+success_count = df['failures'].str.contains('success', case=False, na=False).sum()
+failure_count = df['failures'].str.contains('failure', case=False, na=False).sum()
+
+print(f"✅ Total Successful Missions: {success_count}")
+print(f"❌ Total Failed Missions: {failure_count}")
