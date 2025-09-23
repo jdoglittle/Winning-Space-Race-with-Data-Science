@@ -1,0 +1,33 @@
+!pip install pandas
+import pandas as pd
+
+df = pd.read_csv('spacex_launch_data.csv')  
+
+
+df['date_utc'] = pd.to_datetime(df['date_utc'], errors='coerce')
+
+failed_drone_2015 = df[
+    df['date_utc'].dt.date.isin([pd.to_datetime('2015-01-10').date(), pd.to_datetime('2015-04-14').date()])
+]
+
+print("❌ Manually tagged failed drone ship landings in 2015:")
+print(failed_drone_2015[['rocket', 'date_utc', 'failures']])
+
+
+df['drone_ship_failure_2015'] = df['date_utc'].dt.date.isin([
+    pd.to_datetime('2015-01-10').date(),
+    pd.to_datetime('2015-04-14').date()
+])
+
+
+failed_drone_tagged = df[df['drone_ship_failure_2015']]
+print(failed_drone_tagged[['rocket', 'date_utc', 'drone_ship_failure_2015']])
+
+
+summary_df = df[df['drone_ship_failure_2015']].copy()
+summary_df['mission'] = ['CRS-5', 'CRS-6']
+summary_df['failure_description'] = [
+    'Hard landing on drone ship (JRTI)',
+    'Booster tipped over on drone ship (JRTI)'
+]
+print(summary_df[['mission', 'date_utc', 'failure_description']])
