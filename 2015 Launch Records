@@ -31,3 +31,65 @@ summary_df['failure_description'] = [
     'Booster tipped over on drone ship (JRTI)'
 ]
 print(summary_df[['mission', 'date_utc', 'failure_description']])
+
+df = pd.read_csv('spacex_launch_data.csv')  
+
+
+df['date_utc'] = pd.to_datetime(df['date_utc'], errors='coerce')
+
+failed_drone_2015 = df[
+    df['date_utc'].dt.date.isin([pd.to_datetime('2015-01-10').date(), pd.to_datetime('2015-04-14').date()])
+]
+
+print("❌ Manually tagged failed drone ship landings in 2015:")
+print(failed_drone_2015[['rocket', 'date_utc', 'failures']])
+
+
+df['drone_ship_failure_2015'] = df['date_utc'].dt.date.isin([
+    pd.to_datetime('2015-01-10').date(),
+    pd.to_datetime('2015-04-14').date()
+])
+
+
+failed_drone_tagged = df[df['drone_ship_failure_2015']]
+print(failed_drone_tagged[['rocket', 'date_utc', 'drone_ship_failure_2015']])
+
+
+summary_df = df[df['drone_ship_failure_2015']].copy()
+summary_df['mission'] = ['CRS-5', 'CRS-6']
+summary_df['failure_description'] = [
+    'Hard landing on drone ship (JRTI)',
+    'Booster tipped over on drone ship (JRTI)'
+]
+
+
+print(summary_df[['mission', 'date_utc', 'failure_description']])
+
+cape_canaveral_id = '5e9e4501f509094ba4566f84'
+
+cape_launches = df[df['launchpad'] == cape_canaveral_id]
+
+result = cape_launches[['date_utc', 'rocket']].copy()
+
+result = result.rename(columns={'rocket': 'booster_version'})
+
+result = result.sort_values(by='date_utc')
+
+print(result)
+
+df_2015 = df[df['date_utc'].dt.year == 2015]
+drone_landings = df_2015[df_2015['drone_ship_failure_2015']]
+
+drone_landings['mission'] = ['CRS-5', 'CRS-6']
+drone_landings['failure_description'] = [
+    'Hard landing on drone ship (JRTI)',
+    'Booster tipped over on drone ship (JRTI)'
+]
+
+launchpad_map = {
+    '5e9e4501f509094ba4566f84': 'Cape Canaveral SLC-40'
+}
+drone_landings['launch_site'] = drone_landings['launchpad'].map(launchpad_map)
+
+result = drone_landings[['date_utc', 'rocket', 'mission', 'failure_description', 'launch_site']]
+print(result)
