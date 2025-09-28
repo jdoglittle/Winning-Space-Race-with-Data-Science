@@ -1,0 +1,31 @@
+import pandas as pd
+!pip install pandas
+
+data = {
+    'date_utc': [
+        '2010-06-04', '2012-05-22', '2015-01-10', '2015-04-14',
+        '2016-03-04', '2017-02-19', '2017-06-23', '2017-10-09'
+    ],
+    'landing_outcome': [
+        'Failure', 'Failure', 'Failure', 'Success',
+        'Success', 'Success', 'Success', 'Failure'
+    ]
+}
+
+df = pd.DataFrame(data)
+df['date_utc'] = pd.to_datetime(df['date_utc'])
+
+
+mask = (df['date_utc'].dt.year >= 2010) & (df['date_utc'].dt.year <= 2017)
+filtered_df = df[mask]
+
+
+outcome_counts = (
+    filtered_df['landing_outcome']
+    .value_counts()
+    .reset_index()
+    .rename(columns={'index': 'landing_outcome', 'landing_outcome': 'outcome_count'})
+    .sort_values(by='outcome_count', ascending=False)
+)
+
+print(outcome_counts)
