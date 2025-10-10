@@ -1,37 +1,41 @@
-[ Start ]
-   ↓
-[ Import Libraries ]
-   - requests
-   - pandas
-   - json
-   ↓
-[ Define Base URL ]
-   - Example: "https://api.spacexdata.com/v4/"
-   ↓
-[ Choose Endpoint ]
-   ├── /launches
-   ├── /rockets
-   ├── /payloads
-   ├── /crew
-   └── /launchpads
-   ↓
-[ Send GET Request ]
-   - response = requests.get(BASE_URL + endpoint)
-   ↓
-[ Check Response ]
-   ├── If response.status_code == 200:
-   │     ↓
-   │   [ Load JSON Data ]
-   │     - data = response.json()
-   │     ↓
-   │   [ Normalize JSON ]
-   │     - pd.json_normalize(data)
-   └── Else: Log error or retry
-   ↓
-[ Analyze Data ]
-   - Clean, filter, transform
-   ↓
-[ Visualize or Model ]
-   - Use Plotly, Dash, or ML algorithms
-   ↓
-[ End ]
+!pip install pandas
+import requests
+import pandas as pd
+import json
+
+
+BASE_URL = "https://api.spacexdata.com/v4/"
+
+
+endpoints = [
+    "launches",
+    "rockets",
+    "payloads",
+    "crew",
+    "launchpads"
+]
+
+
+for endpoint in endpoints:
+    print(f"\n--- Fetching data from /{endpoint} ---")
+    
+
+    response = requests.get(BASE_URL + endpoint)
+    
+   
+    if response.status_code == 200:
+        # [ Load JSON Data ]
+        data = response.json()
+        
+       
+        df = pd.json_normalize(data)
+        
+    
+        print(f"Shape of {endpoint} data: {df.shape}")
+        print(df.head(2))  
+        
+       
+        
+    else:
+        print(f"Failed to fetch {endpoint} data. Status code: {response.status_code}")
+
