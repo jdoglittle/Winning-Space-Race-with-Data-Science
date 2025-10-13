@@ -1,0 +1,30 @@
+[Start]
+   ↓
+[Data Collection & Cleaning]
+To clean missing values
+   ↓
+[Feature Engineering]
+To improve accuracy and boost interpretability
+   ↓
+[Model Selection]
+To to avoid Oerfittining/Underfitting 
+   ↓
+[Model Training]
+Split data (e.g., 80/20), trained models using scikit-learn pipelines
+   ↓
+[Model Evaluation]
+For F1 SCore and recall sensitivity
+   ↓
+[Hyperparameter Tuning]
+cross-validation to optimize performance
+   ↓
+[Model Comparison]
+To optimize resource
+   ↓
+[Best Model Identified]
+ Chose model with highest F1-score and generalization on test set
+   ↓
+[Final Model Deployment]
+ Saved model with joblib, integrated into dashboard or app
+   ↓
+[End]
