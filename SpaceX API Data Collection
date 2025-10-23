@@ -1,41 +1,5 @@
-!pip install pandas
 import requests
-import pandas as pd
-import json
 
-
-BASE_URL = "https://api.spacexdata.com/v4/"
-
-
-endpoints = [
-    "launches",
-    "rockets",
-    "payloads",
-    "crew",
-    "launchpads"
-]
-
-
-for endpoint in endpoints:
-    print(f"\n--- Fetching data from /{endpoint} ---")
-    
-
-    response = requests.get(BASE_URL + endpoint)
-    
-   
-    if response.status_code == 200:
-        # [ Load JSON Data ]
-        data = response.json()
-        
-       
-        df = pd.json_normalize(data)
-        
-    
-        print(f"Shape of {endpoint} data: {df.shape}")
-        print(df.head(2))  
-        
-       
-        
-    else:
-        print(f"Failed to fetch {endpoint} data. Status code: {response.status_code}")
-
+response = requests.get("https://api.spacexdata.com/v4/launches")
+data = response.json()
+data[:2]  # Preview first two records
